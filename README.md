@@ -1,7 +1,3 @@
-# TD-Virtualisation-Cloud
-
-
-GPC 
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with
 the following symbols:
   + create
@@ -135,6 +131,43 @@ Terraform will perform the following actions:
       + secondary_ip_range (known after apply)
     }
 
+  # google_dns_managed_zone.zone will be created
+  + resource "google_dns_managed_zone" "zone" {
+      + creation_time    = (known after apply)
+      + deletion_policy  = "DELETE"
+      + description      = "Managed by Terraform"
+      + dns_name         = "example.com."
+      + effective_labels = {
+          + "goog-terraform-provisioned" = "true"
+        }
+      + force_destroy    = false
+      + id               = (known after apply)
+      + managed_zone_id  = (known after apply)
+      + name             = "td-zone"
+      + name_servers     = (known after apply)
+      + project          = "polytech-dijon"
+      + terraform_labels = {
+          + "goog-terraform-provisioned" = "true"
+        }
+      + visibility       = "public"
+
+      + cloud_logging_config (known after apply)
+
+      + dnssec_config (known after apply)
+    }
+
+  # google_dns_record_set.vm will be created
+  + resource "google_dns_record_set" "vm" {
+      + deletion_policy = "DELETE"
+      + id              = (known after apply)
+      + managed_zone    = "td-zone"
+      + name            = "app.example.com."
+      + project         = "polytech-dijon"
+      + rrdatas         = (known after apply)
+      + ttl             = 300
+      + type            = "A"
+    }
+
   # google_sql_database_instance.db will be created
   + resource "google_sql_database_instance" "db" {
       + available_maintenance_versions       = (known after apply)
@@ -210,4 +243,4 @@ Terraform will perform the following actions:
         }
     }
 
-Plan: 4 to add, 0 to change, 0 to destroy.
+Plan: 6 to add, 0 to change, 0 to destroy.
