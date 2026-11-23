@@ -45,3 +45,17 @@ resource "google_sql_database_instance" "db" {
     }
   }
 }
+
+resource "google_dns_managed_zone" "zone" {
+  name     = "td-zone"
+  dns_name = "example.com."
+}
+
+
+resource "google_dns_record_set" "vm" {
+  name         = "app.${google_dns_managed_zone.zone.dns_name}"
+  type         = "A"
+  ttl          = 300
+  managed_zone = google_dns_managed_zone.zone.name
+  rrdatas      = google_compute_instance.vm[*].network_interface[0].access_config[0].nat_ip
+}
